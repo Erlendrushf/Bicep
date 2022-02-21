@@ -45,3 +45,4 @@ resource defaultsubnet 'Microsoft.Network/virtualNetworks/subnets@2021-05-01' = 
 }
 
 
+output subnetId string = defaultsubnet.id
