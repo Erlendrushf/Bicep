@@ -19,6 +19,12 @@ resource vm1 'Microsoft.Compute/virtualMachines@2021-11-01' = {
            vm1nic
        ]
     }
+    hardwareProfile: {
+      vmSize: 'Standard_A2'
+    }
+  }
+  identity: {
+    type: 'SystemAssigned'
   }
 }
 
@@ -44,3 +50,6 @@ resource vm1nic 'Microsoft.Network/networkInterfaces@2021-05-01' = {
     ]
   }
 }
+
+
+output managedIdentity string = vm1.identity.principalId

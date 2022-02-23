@@ -68,4 +68,8 @@ module VM 'VM.bicep' = {
 module keyvault 'Keyvault.bicep' = {
   name: 'keyVault'
   scope: resourceGroup(resourcegroups[2])
+  params: {
+    vmIdentity: VM.outputs.managedIdentity
+    Location: Location
+  }
 }
