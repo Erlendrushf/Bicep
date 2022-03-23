@@ -23,14 +23,11 @@ resource fwPolicyrulecollection 'Microsoft.Network/firewallPolicies/ruleCollecti
             name: 'AAD Connect health Service Endpoints'
             ruleType: 'ApplicationRule'
             targetFqdns: [
-              '*.blob.core.windows.net'
               '*.aadconnecthealth.azure.com'
               '*servicebus.windows.net'
               '*.adhybridhealth.azure.com'
               'www.management.azure.com'
               'www.policykeyservice.dc.ad.msft.net'
-              'www.login.windows.net'
-              'www.login.microsoftonline.com'
               'secure.aadcdn.microsoftonline-p.com'
               'aadcdn.msftauth.net'
             ]
@@ -89,7 +86,6 @@ resource fwPolicyrulecollection 'Microsoft.Network/firewallPolicies/ruleCollecti
             ruleType: 'ApplicationRule'
             targetFqdns: [
               '*.msappproxy.net'
-              '*.servicebus.windows.net'
             ]
             sourceAddresses: sourceaddresses
             protocols: [
