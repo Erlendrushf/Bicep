@@ -1,0 +1,61 @@
+{
+    "$schema": "https://schema.management.azure.com/schemas/2019-04-01/deploymentTemplate.json",
+    "contentVersion": "1.0.0.0",
+    "parameters": {
+      "customProfileName": {
+        "type": "string"
+      },
+      "location": {
+        "type": "string"
+      },
+      "azureSecurityBaselineAssignmentType": {
+        "type": "string",
+        "allowedValues": [
+          "ApplyAndAutoCorrect",
+          "ApplyAndMonitor",
+          "Audit"
+        ]
+      }
+    },
+    "resources": [
+      {
+        "type": "Microsoft.Automanage/configurationProfiles",
+        "apiVersion": "2021-04-30-preview",
+        "name": "[parameters('customProfileName')]",
+        "location": "[parameters('location')]",
+        "properties": {
+            "configuration": {
+              "Antimalware/Enable": "true",
+              "Antimalware/EnableRealTimeProtection": "true",
+              "Antimalware/RunScheduledScan": "true",
+              "Antimalware/ScanType": "Quick",
+              "Antimalware/ScanDay": "7",
+              "Antimalware/ScanTimeInMinutes": "120",
+              "AzureSecurityBaseline/Enable": true,
+              "AzureSecurityBaseline/AssignmentType": "[parameters('azureSecurityBaselineAssignmentType')]",
+              "AzureSecurityCenter/Enable": true,
+              "Backup/Enable": "true",
+              "Backup/PolicyName": "dailyBackupPolicy",
+              "Backup/TimeZone": "UTC",
+              "Backup/InstantRpRetentionRangeInDays": "2",
+              "Backup/SchedulePolicy/ScheduleRunFrequency": "Daily",
+              "Backup/SchedulePolicy/ScheduleRunTimes": [
+                  "2017-01-26T00:00:00Z"
+              ],
+              "Backup/SchedulePolicy/SchedulePolicyType": "SimpleSchedulePolicy",
+              "Backup/RetentionPolicy/RetentionPolicyType": "LongTermRetentionPolicy",
+              "Backup/RetentionPolicy/DailySchedule/RetentionTimes": [
+                  "2017-01-26T00:00:00Z"
+              ],
+              "Backup/RetentionPolicy/DailySchedule/RetentionDuration/Count": "180",
+              "Backup/RetentionPolicy/DailySchedule/RetentionDuration/DurationType": "Days",
+              "BootDiagnostics/Enable": true,
+              "ChangeTrackingAndInventory/Enable": true,
+              "LogAnalytics/Enable": true,
+              "UpdateManagement/Enable": true,
+              "VMInsights/Enable": true
+          }
+        }
+      }
+    ]
+  }
