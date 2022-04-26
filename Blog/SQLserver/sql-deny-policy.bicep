@@ -1,12 +1,16 @@
 targetScope = 'subscription'
 param location string = 'WestEurope'
 
-resource sqlauditpolicy 'Microsoft.Authorization/policyDefinitions@2021-06-01' = {
+resource sqldenypolicy 'Microsoft.Authorization/policyDefinitions@2021-06-01' = {
   name: 'Deny SQL AllowAllAzureIps'
-  location: location
   properties: {
     description: 'Deny SQL server from having AllowAllAzureIps configured.'
     displayName: 'Deny SQL server AllowAllAzureIps'
+    mode: 'All'
+    metadata: {
+      category: 'SQL'
+    }
+    policyType: 'Custom'
     policyRule: {
       if: {
         allOf: [
@@ -24,7 +28,6 @@ resource sqlauditpolicy 'Microsoft.Authorization/policyDefinitions@2021-06-01' =
         effect: 'deny'
       }
     }
-    policyType: 'Custom'
   }
 }
 
@@ -32,12 +35,13 @@ resource policyass 'Microsoft.Authorization/policyAssignments@2021-06-01' = {
   name: 'Assign Deny AllowAllAzureIps Policy'
   location: location
   properties: {
-    policyDefinitionId: sqlauditpolicy.id
-    description: 'Denies the us of setting "AllowAllAzureIps"'
+    policyDefinitionId: sqldenypolicy.id
+    description: 'Denies the use of setting "AllowAllAzureIps"'
     nonComplianceMessages: [
       {
       message: 'AllowAllAzureIps setting is forbidden.'
       }
     ]
+    displayName: 'Deny SQL server AllowAllAzureIps'
   }
 }
